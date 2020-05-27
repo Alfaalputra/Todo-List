@@ -81,43 +81,96 @@ class MainActivity : AppCompatActivity(){
     private fun showInsertDialog(){
         val view = LayoutInflater.from(this).inflate(R.layout.todolist_fragment, null)
 
-        val dialogTitle = "Add data"
+        view.tenggat.setOnClickListener{
+            Common.showDatePickerDialog(this, view.tenggat)
+        }
+
+        view.waktu.setOnClickListener{
+            Common.showTimePickerDialog(this, view.waktu)
+        }
+
+        val dialogTitle = "Tambah Data"
+        val toastMessage =  "Data Berhasil Ditambahkan"
+        val failAlertMessage = "Tolong Isi Semua Fild"
 
         Dialog(this, dialogTitle, view){
             val title = view.input_title.text.toString().trim()
             val note = view.input_note.text.toString()
+            val tanggal = view.tenggat.text.toString().trim()
+            val waktu = view.waktu.text.toString().trim()
 
-            val todo = TodoList(
-                judul = title,
-                note = note
-            )
-            todoListViewModel.insertTodoList(todo)
+            if (title == "" || tanggal == "" || waktu == "") {
+                AlertDialog.Builder(this).setMessage(failAlertMessage).setCancelable(false)
+                    .setPositiveButton("OK") { dialogInterface, _ ->
+                        dialogInterface.cancel()
+                    }.create().show()
+            }
+            else {
+                val parsedTanggal = Common.convertStringToDate("dd-MM-yy", tanggal)
+                val tenggat = Common.formatDate(parsedTanggal, "dd-MM-yy")
+                val currentDate = Common.getCurrentDateTime()
+                val tanggal = Common.formatDate(currentDate, "dd-MM-yy HH:mm:ss")
+
+                val todo = TodoList(
+                    judul = title,
+                    note = note,
+                    tanggalBuat = tanggal,
+                    tanggalUpdate = tanggal,
+                    tenggat = tenggat,
+                    waktuTenggat = waktu
+                )
+                todoListViewModel.insertTodoList(todo)
+
+                Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT)
+                    .show()
+            }
         }.show()
     }
 
     private fun showEditDialog(todoList: TodoList) {
         val view = LayoutInflater.from(this).inflate(R.layout.todolist_fragment, null)
 
+        view.tenggat.setOnClickListener{
+            Common.showDatePickerDialog(this, view.tenggat)
+        }
+
+        view.waktu.setOnClickListener{
+            Common.showTimePickerDialog(this, view.waktu)
+        }
+
         view.input_title.setText(todoList.judul)
         view.input_note.setText(todoList.note)
+        view.tenggat.setText(todoList.tenggat)
+        view.waktu.setText(todoList.waktuTenggat)
 
         val dialogTitle = "Edit data"
         val toastMessage = "Data Terubah"
-        val failAlertMessage = "Tolong Isi Semua Field"
-
+        val failAlertMessage = "Tolong isi field Judul"
 
         Dialog(this, dialogTitle, view){
             val title = view.input_title.text.toString().trim()
             val note = view.input_note.text.toString()
+            val waktu = view.waktu.text.toString().trim()
+            val tenggat = view.tenggat.text.toString().trim()
+            val tanggalBuat = todoList.tanggalBuat
 
-            if (title == "") {
+            if (title == "" || tenggat == "" || waktu == "") {
                 AlertDialog.Builder(this).setMessage(failAlertMessage).setCancelable(false)
                     .setPositiveButton("OK") { dialogInterface, _ ->
                         dialogInterface.cancel()
                     }.create().show()
             } else {
+                val parssedTanggal = Common.convertStringToDate("dd-MM-yy", tenggat)
+                val tenggat = Common.formatDate(parssedTanggal, "dd-MM-yy")
+                val currentDate = Common.getCurrentDateTime()
+                val tanggalUpdate = Common.formatDate(currentDate, "dd-MM-yy HH:mm:ss")
+
                 todoList.judul= title
                 todoList.note = note
+                todoList.tanggalBuat = tanggalBuat
+                todoList.tanggalUpdate = tanggalUpdate
+                todoList.tenggat = tenggat
+                todoList.waktuTenggat = waktu
 
                 todoListViewModel.updateTodoList(todoList)
                 Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show()
@@ -138,7 +191,11 @@ class MainActivity : AppCompatActivity(){
     private fun showDetailsDialog(todoList: TodoList) {
         val title = "Title: ${todoList.judul}"
         val note = "Note: ${todoList.note}"
-        val strMessage = "$title\n$note"
+        val tenggat = "Tenggat : ${todoList.tenggat} ${todoList.waktuTenggat}"
+        val tanggalBuat = "Dibuat Pada : ${todoList.tanggalBuat}"
+        val tanggalUpdate = "Di Update Pada : ${todoList.tanggalUpdate}"
+
+        val strMessage = "$title\n$note\n$tanggalBuat\n$tanggalUpdate\n$tenggat"
 
         AlertDialog.Builder(this).setMessage(strMessage).setCancelable(false)
             .setPositiveButton("OK") { dialogInterface, _ ->

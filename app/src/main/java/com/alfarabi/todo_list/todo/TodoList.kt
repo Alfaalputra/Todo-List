@@ -14,5 +14,17 @@ data class TodoList(
     var judul: String,
 
     @ColumnInfo(name = "note")
-    var note: String
+    var note: String,
+
+    @ColumnInfo(name = "tanggal_buat")
+    var tanggalBuat: String,
+
+    @ColumnInfo(name = "tanggal_update")
+    var tanggalUpdate: String,
+
+    @ColumnInfo(name = "tanggal_tenggat")
+    var tenggat: String,
+
+    @ColumnInfo(name = "waktu_tenggat")
+    var waktuTenggat: String
 )

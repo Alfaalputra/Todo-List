@@ -1,19 +1,21 @@
 <resources>
     <string name="app_name">ToDo List</string>
-    <string name="title">Title</string>
-    <string name="tambah">Add</string>
+    <string name="title">Judul</string>
+    <string name="tambah">Tambah</string>
     <string name="judul">Judul</string>
     <string name="note">Catatan</string>
     <string name="empty">Empty Data</string>
-    <string name="add">Add Data</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
+    <string name="add">Tambah Data</string>
+    <string name="save">Simpan</string>
+    <string name="cancel">Batal</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="waktu">Waktu</string>
+    <string name="tenggat">Tenggat</string>
 
     <string-array name="edit_delete">
-        <item>Details</item>
-        <item>Edit</item>
-        <item>Delete</item>
+        <item>Detail</item>
+        <item>Sunting</item>
+        <item>Hapus</item>
     </string-array>
 </resources>
