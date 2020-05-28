@@ -61,4 +61,17 @@
             android:longClickable="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/waktu">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/input_notifikasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/notifikasi"
+            android:checked="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
 </LinearLayout>

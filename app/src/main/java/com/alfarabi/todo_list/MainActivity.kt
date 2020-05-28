@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.alfarabi.todo_list.reminder.Common
 import com.alfarabi.todo_list.reminder.ConfirmDialog
 import com.alfarabi.todo_list.reminder.Dialog
+import com.alfarabi.todo_list.todo.Notifikasi
 import com.alfarabi.todo_list.todo.TodoList
 import com.alfarabi.todo_list.todo.TodoListAdapter
 import com.alfarabi.todo_list.todo.TodoListViewModel
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(){
 
     private lateinit var todoListViewModel: TodoListViewModel
     private lateinit var todoListAdapter: TodoListAdapter
+    private lateinit var notifikasiTenggat: Notifikasi
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -62,6 +63,8 @@ class MainActivity : AppCompatActivity(){
         add.setOnClickListener {
             showInsertDialog()
         }
+
+        notifikasiTenggat = Notifikasi()
 
     }
 
@@ -108,6 +111,7 @@ class MainActivity : AppCompatActivity(){
             val note = view.input_note.text.toString()
             val tanggal = view.tenggat.text.toString().trim()
             val waktu = view.waktu.text.toString().trim()
+            val notifikasi = view.input_notifikasi.isChecked
 
             if (title == "" || tanggal == "" || waktu == "") {
                 AlertDialog.Builder(this).setMessage(failAlertMessage).setCancelable(false)
@@ -127,9 +131,14 @@ class MainActivity : AppCompatActivity(){
                     tanggalBuat = tanggal,
                     tanggalUpdate = tanggal,
                     tenggat = tenggat,
-                    waktuTenggat = waktu
+                    waktuTenggat = waktu,
+                    notifikasi = notifikasi
                 )
                 todoListViewModel.insertTodoList(todo)
+                if (notifikasi){
+                    notifikasiTenggat .setNotifikasi(this, tenggat, waktu,
+                        "Tenggat waktu 1 jam")
+                }
 
                 Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT)
                     .show()
@@ -152,6 +161,7 @@ class MainActivity : AppCompatActivity(){
         view.input_note.setText(todoList.note)
         view.tenggat.setText(todoList.tenggat)
         view.waktu.setText(todoList.waktuTenggat)
+        view.input_notifikasi.isChecked = todoList.notifikasi
 
         val dialogTitle = "Edit data"
         val toastMessage = "Data Terubah"
@@ -163,6 +173,8 @@ class MainActivity : AppCompatActivity(){
             val waktu = view.waktu.text.toString().trim()
             val tenggat = view.tenggat.text.toString().trim()
             val tanggalBuat = todoList.tanggalBuat
+            val notifikasi = view.input_notifikasi.isChecked
+            val prevWaktuTenggat = todoList.waktuTenggat
 
             if (title == "" || tenggat == "" || waktu == "") {
                 AlertDialog.Builder(this).setMessage(failAlertMessage).setCancelable(false)
@@ -181,8 +193,13 @@ class MainActivity : AppCompatActivity(){
                 todoList.tanggalUpdate = tanggalUpdate
                 todoList.tenggat = tenggat
                 todoList.waktuTenggat = waktu
+                todoList.notifikasi = notifikasi
 
                 todoListViewModel.updateTodoList(todoList)
+                if (notifikasi && prevWaktuTenggat != waktu){
+                    notifikasiTenggat.setNotifikasi(this, tenggat, waktu,
+                    "$title Tenggat waktu 1 jam")
+                }
                 Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show()
             }
         }.show()
@@ -206,6 +223,8 @@ class MainActivity : AppCompatActivity(){
         val tanggalUpdate = "Di Update Pada : ${todoList.tanggalUpdate}"
 
         val strMessage = "$title\n$note\n$tanggalBuat\n$tanggalUpdate\n$tenggat"
+        val strPengingat = if (todoList.notifikasi) "Enabled" else "Disabled"
+        val pengingat = "Pengingat: $strPengingat"
 
         AlertDialog.Builder(this).setMessage(strMessage).setCancelable(false)
             .setPositiveButton("OK") { dialogInterface, _ ->

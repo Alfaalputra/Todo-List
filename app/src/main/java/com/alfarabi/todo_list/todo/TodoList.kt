@@ -26,5 +26,8 @@ data class TodoList(
     var tenggat: String,
 
     @ColumnInfo(name = "waktu_tenggat")
-    var waktuTenggat: String
+    var waktuTenggat: String,
+
+    @ColumnInfo(name = "notifikasi")
+    var notifikasi: Boolean = true
 )
