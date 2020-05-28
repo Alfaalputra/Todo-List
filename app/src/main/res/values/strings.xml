@@ -12,6 +12,9 @@
     <string name="no">No</string>
     <string name="waktu">Waktu</string>
     <string name="tenggat">Tenggat</string>
+    <string name="sort">Urutkan</string>
+    <string name="tanggal_buat">Tanggal Buat</string>
+    <string name="tenggat_waktu">Tenggat Waktu</string>
 
     <string-array name="edit_delete">
         <item>Detail</item>

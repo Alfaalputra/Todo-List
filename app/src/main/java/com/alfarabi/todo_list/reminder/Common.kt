@@ -46,7 +46,7 @@ object Common {
     fun showTimePickerDialog(context: Context, view: EditText) {
         val calendar: Calendar = Calendar.getInstance()
         TimePickerDialog(
-            context,
+            context, TimePickerDialog.THEME_HOLO_LIGHT,
             TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 calendar.set(Calendar.HOUR_OF_DAY, hour)
                 calendar.set(Calendar.MINUTE, minute)

@@ -3,6 +3,8 @@ package com.alfarabi.todo_list
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,11 @@ import kotlinx.android.synthetic.main.activity_main.todolist
 import kotlinx.android.synthetic.main.todolist_fragment.view.*
 
 class MainActivity : AppCompatActivity(){
+
+    companion object{
+        var sortTanggalBuat = true
+    }
+
     private lateinit var todoListViewModel: TodoListViewModel
     private lateinit var todoListAdapter: TodoListAdapter
 
@@ -201,5 +208,29 @@ class MainActivity : AppCompatActivity(){
             .setPositiveButton("OK") { dialogInterface, _ ->
                 dialogInterface.cancel()
             }.create().show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.sort -> true
+            R.id.tanggal_buat -> {
+                sortTanggalBuat = true
+                refreshData()
+                true
+            }
+            R.id.tenggat_waktu -> {
+                sortTanggalBuat = false
+                refreshData()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 }

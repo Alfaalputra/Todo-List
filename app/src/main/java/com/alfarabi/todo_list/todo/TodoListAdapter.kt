@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.alfarabi.todo_list.MainActivity
 import com.alfarabi.todo_list.R
 import com.alfarabi.todo_list.reminder.Common
 import kotlinx.android.synthetic.main.item_empty.view.*
@@ -48,7 +49,13 @@ class TodoListAdapter(private val listener: (TodoList, Int) -> Unit) :
             }
             VIEW_TODOLIST -> {
                 val todolistHolder = holder as TodoListViewHolder
-                todolistHolder.bindItem(todoList[position], listener)
+                val sortedList = todoList.sortedWith(
+                if (MainActivity.sortTanggalBuat)
+                    compareBy({it.tanggalBuat}, {it.tanggalUpdate})
+                else{
+                    compareBy({it.tenggat}, {it.waktuTenggat})
+                })
+                todolistHolder.bindItem(sortedList[position], listener)
             }
         }
     }
