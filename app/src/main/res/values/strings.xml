@@ -15,6 +15,7 @@
     <string name="sort">Urutkan</string>
     <string name="tanggal_buat">Tanggal Buat</string>
     <string name="tenggat_waktu">Tenggat Waktu</string>
+    <string name="search">Cari Judul</string>
 
     <string-array name="edit_delete">
         <item>Detail</item>

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        tools:text="Title"
+        tools:text="Judul"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -25,7 +25,7 @@
         android:textSize="16sp"
         android:textColor="#000000"
         android:layout_marginBottom="16dp"
-        tools:text="Confirmation Message" />
+        tools:text="Pesan Konfirmasi" />
 
     <RelativeLayout
         android:layout_width="match_parent"

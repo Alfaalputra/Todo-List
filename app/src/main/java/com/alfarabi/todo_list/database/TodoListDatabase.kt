@@ -17,7 +17,9 @@ abstract class TodoListDatabase : RoomDatabase(){
         fun getInstance(context: Context): TodoListDatabase?{
             if (instance == null)
                 synchronized(TodoListDatabase::class){
-                    instance = Room.databaseBuilder(context, TodoListDatabase::class.java, DB_NAME).build()
+                    instance = Room.databaseBuilder(context,
+                        TodoListDatabase::class.java, DB_NAME)
+                        .build()
                 }
             return instance
         }
