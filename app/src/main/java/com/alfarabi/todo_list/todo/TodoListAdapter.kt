@@ -36,12 +36,12 @@ class TodoListAdapter(private val listener: (TodoList, Int) -> Unit) :
                     todoListSearch = todoList
                 else {
                     val filteredList = ArrayList<TodoList>()
-                    for (todolist in todoList) {
-                        if (todolist.toString().toLowerCase(Locale.ROOT).contains(
+                    for (todo in todoList) {
+                        if (todo.toString().toLowerCase(Locale.ROOT).contains(
                                 keywords.toLowerCase(Locale.ROOT)
                             )
                         )
-                            filteredList.add(todolist)
+                            filteredList.add(todo)
                     }
                     todoListSearch = filteredList
                 }
@@ -70,7 +70,7 @@ class TodoListAdapter(private val listener: (TodoList, Int) -> Unit) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (todoList.isEmpty())
+        return if (todoListSearch.isEmpty())
             VIEW_EMPTY
         else
             VIEW_TODOLIST
